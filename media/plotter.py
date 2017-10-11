@@ -9,7 +9,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from plotter.video import make_video
+from media.video import make_video
 
 
 class Plotter:
