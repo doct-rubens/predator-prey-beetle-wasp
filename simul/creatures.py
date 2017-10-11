@@ -85,6 +85,29 @@ class Creature:
     def is_caterpillar(self):
         return False
 
+    # checks if the creature died randomly. If it did,
+    # updates its 'alive' attribute.
+    #
+    # returns if a random death occurred (True) or not (False)
+    def random_death(self):
+        if np.random.uniform(low=0.0, high=1.0) < self.universe.random_death_chance[type(self)]:
+            self.alive = False
+            return True
+        else:
+            return False
+
+    # checks if an old death occurred. If it occurred, updates
+    # the 'alive' attribute of the creature.
+    #
+    # returns if an old age death actually occurred (True) or
+    # not (False)
+    def old_age_death(self):
+        if self.age > self.lifespan:
+            self.alive = False
+            return True
+        else:
+            return False
+
 
 # Implements the class definition for flies. Doesn't have any 'particularities',
 # per se, but the typification acquired from the usage of different subclasses is
