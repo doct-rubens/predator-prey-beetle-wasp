@@ -10,7 +10,7 @@
 # populations for each time step - the plotter can generate a sequence of output images
 # or a video with that evolution.
 
-
+import os
 import numpy as np
 import pandas as pd
 import scipy.integrate as integrate
@@ -46,15 +46,36 @@ class SimulationControl:
     #
     # If a plotter was sent to the simulation control, generates
     # output images and/or a video according to the plotter settings
-    def simulation_batch(self, simul_time, n_simuls):
+    def simulation_batch(self, simul_time, n_simuls,
+                         output_csv='none', output_dir='outputs', output_name='simul'):
+
+        # creates a directory with the given name if it doesn't already exists
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
+
+        snp = max([1, int(np.ceil(np.log10(n_simuls + 1)))])
         avg_simul_log = self.empty_data_log(simul_time + 1)
         for i in range(n_simuls):
-            avg_simul_log = avg_simul_log + self.world.run_world(simul_time)
+
+            # current simulation dataframe results
+            curr_df = self.world.run_world(simul_time)
+
+            # if output saving mode is set to 'all', save these results
+            if output_csv == 'all':
+                curr_df.to_csv(os.path.join(output_dir,
+                                            output_name + ('_{0:0{1}}.csv'.format(i, snp))))
+
+            avg_simul_log = avg_simul_log + curr_df
 
             if self.plotter is not None:
                 self.plotter.save_image(avg_simul_log / (i + 1), idx=i)
 
-        return avg_simul_log / n_simuls
+        avg_simul_log = avg_simul_log / n_simuls
+
+        if output_csv != 'none':
+            avg_simul_log.to_csv(os.path.join(output_dir, output_name + '_mean.csv'))
+
+        return avg_simul_log
 
     #
     # Initializes an empty dataframe with the length of the simulation time

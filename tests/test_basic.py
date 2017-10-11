@@ -52,6 +52,12 @@ parent_path = 'output_images'
 path = 'test_simulation'
 columns = ['moth-living', 'fly-living']
 
+# output csv file generation params
+output_csv_dir = 'outputs'
+output_csv_name = 'simul_results'
+output_csv = 'all'   # can be 'all', 'partial' or 'none'
+
+
 # create the classes
 my_plotter = Plotter(title, path, columns, n_simuls, parent_path=parent_path)
 u = Universe(*fly_params.values(), *moth_params.values(), *other_params.values())
@@ -59,4 +65,7 @@ w = WonderfulWorld(nm, nf, u)
 s = SimulationControl(w, *costs.values(), plotter=my_plotter)
 
 # run a simulation batch
-df = s.simulation_batch(steps, n_simuls)
+df = s.simulation_batch(steps, n_simuls,
+                        output_csv=output_csv,
+                        output_dir=output_csv_dir,
+                        output_name=output_csv_name)
