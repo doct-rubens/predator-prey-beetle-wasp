@@ -1,4 +1,4 @@
-# -*- coding=utf8 -*-
+# -*- coding: utf8 -*-
 #
 # Defines the creatures class. It implements the storage and
 # access to the basic features of our creatures. They are:
