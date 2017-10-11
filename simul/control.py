@@ -10,6 +10,7 @@
 # populations for each time step - the plotter can generate a sequence of output images
 # or a video with that evolution.
 
+
 import numpy as np
 import pandas as pd
 import scipy.integrate as integrate
