@@ -55,8 +55,8 @@ columns = ['moth-living', 'fly-living']
 # output csv file generation params
 output_csv_dir = 'outputs'
 output_csv_name = 'simul_results'
-output_csv = 'all'   # can be 'all', 'partial' or 'none'
-
+output_csv = 'none'     # can be 'all', 'mean' or 'none'
+output_costs = 'all'  # same as above, 'all', 'mean' or 'none'
 
 # create the classes
 my_plotter = Plotter(title, path, columns, n_simuls, parent_path=parent_path)
@@ -67,5 +67,7 @@ s = SimulationControl(w, *costs.values(), plotter=my_plotter)
 # run a simulation batch
 df = s.simulation_batch(steps, n_simuls,
                         output_csv=output_csv,
+                        output_costs=output_costs,
                         output_dir=output_csv_dir,
-                        output_name=output_csv_name)
+                        output_name=output_csv_name
+                        )

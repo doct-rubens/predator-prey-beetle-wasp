@@ -15,6 +15,8 @@ import numpy as np
 import pandas as pd
 import scipy.integrate as integrate
 
+_COST_COLUMNS = ['#moths', '#flies', '#steps', '#simuls', 'cost']
+
 
 class SimulationControl:
 
@@ -44,14 +46,36 @@ class SimulationControl:
     # Returns an averaged log between the logs of all
     # simulations (cost not included)
     #
-    # If a plotter was sent to the simulation control, generates
-    # output images and/or a video according to the plotter settings
+    # Checks the output_csv parameter to save the simulation data
+    # under the directory
+    #       output_dir / output_name_{simul_idx}.csv
+    #
+    # Checks the output_costs parameter to open/create a new costs csv
+    # file and save the costs data on it, under the directory
+    #       output_dir / output_costs_name_{simul_idx}.csv
     def simulation_batch(self, simul_time, n_simuls,
-                         output_csv='none', output_dir='outputs', output_name='simul'):
+                         output_csv='none', output_costs='none',
+                         output_dir='outputs', output_name='simul'):
+
+        output_costs_name = output_name + '_cost'
 
         # creates a directory with the given name if it doesn't already exists
-        if not os.path.exists(output_dir):
-            os.mkdir(output_dir)
+        if (output_csv != 'none') or (output_costs != 'none'):
+            if not os.path.exists(output_dir):
+                os.mkdir(output_dir)
+
+        # initializes the cost dataframe
+        if output_costs != 'none':
+
+            # if there is a costs file saved under the same name, open and use it
+            # (append the new results on it)
+            if os.path.exists(os.path.join(output_dir, output_costs_name + '.csv')):
+                costs_df = pd.read_csv(os.path.join(output_dir, output_costs_name + '.csv'),
+                                       index_col=[0])
+                costs_idx_offset = len(costs_df)
+            else:
+                costs_df = pd.DataFrame(columns=_COST_COLUMNS)
+                costs_idx_offset = 0
 
         snp = max([1, int(np.ceil(np.log10(n_simuls + 1)))])
         avg_simul_log = self.empty_data_log(simul_time + 1)
@@ -65,6 +89,15 @@ class SimulationControl:
                 curr_df.to_csv(os.path.join(output_dir,
                                             output_name + ('_{0:0{1}}.csv'.format(i, snp))))
 
+            if output_costs == 'all':
+                costs_df = costs_df.append(pd.DataFrame(data=[[self.world.n_moths,
+                                                              self.world.n_flies,
+                                                              simul_time,
+                                                              1,
+                                                              self.cost(curr_df)]],
+                                                        index=[costs_idx_offset + i],
+                                                        columns=_COST_COLUMNS))
+
             avg_simul_log = avg_simul_log + curr_df
 
             if self.plotter is not None:
@@ -74,6 +107,16 @@ class SimulationControl:
 
         if output_csv != 'none':
             avg_simul_log.to_csv(os.path.join(output_dir, output_name + '_mean.csv'))
+
+        if output_costs != 'none':
+            costs_df = costs_df.append(pd.DataFrame(data=[[self.world.n_moths,
+                                                          self.world.n_flies,
+                                                          simul_time,
+                                                          n_simuls,
+                                                          self.cost(avg_simul_log)]],
+                                                    index=[len(costs_df)],
+                                                    columns=_COST_COLUMNS))
+            costs_df.to_csv(os.path.join(output_dir, output_costs_name + '.csv'))
 
         return avg_simul_log
 
