@@ -69,6 +69,12 @@ class WonderfulWorld:
         # resets the newborn creatures arrays
         self.children = {Moth: [], Fly: []}
 
+        # initializes the output log with the first
+        # values for the creatures' features
+        self.reset_iteration_log()
+        self.initialize_log()
+        self.save_iteration_log()
+
     #
     # kills the current creature. Previously, it automatically removed the
     # killed creature from the creatures list. But, that messed up the creature
@@ -233,8 +239,8 @@ class WonderfulWorld:
             self.log_creature(moth)
         for fly in self.creatures[Fly]:
             self.log_creature(fly)
-        self.save_iteration_log()
 
+    #
     # runs the world with a given number of steps 'end_of_times'
     # by repeatedly executing the 'single_step()' method.
     #
