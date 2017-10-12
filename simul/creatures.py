@@ -60,7 +60,7 @@ class Creature:
     # Returns a list of children with the same type as its parent (either
     # Fly or Moth, one of the subclasses).
     def children(self, gen):
-        ncs = max([1, int(np.round(np.random.normal(loc=self.universe.offspring_mean[type(self)],
+        ncs = max([0, int(np.round(np.random.normal(loc=self.universe.offspring_mean[type(self)],
                                                     scale=self.universe.offspring_var[type(self)])))])
         return [type(self)(gen=gen, age=0) for _ in range(ncs)]
 
