@@ -50,6 +50,14 @@ class Creature:
     def is_adult(self):
         return self.age >= self.universe.adult_age[type(self)]
 
+    #
+    # Returns a boolean value:
+    #    - True, if it is an egg
+    #    - False, if its not
+    # In particular, for the flies, egg_period ~ larvae_period
+    def is_egg(self):
+        return self.age <= self.universe.egg_age[type(self)]
+
     # Checks gender-related information and returns a boolean value
     # that indicates whether the creature can procreate or not:
     #    - True, if it can procreate
