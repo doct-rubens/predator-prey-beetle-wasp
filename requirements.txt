@@ -1,5 +1,6 @@
 opencv-python
 pandas
 scipy
+numpy
 matplotlib
 more-itertools
