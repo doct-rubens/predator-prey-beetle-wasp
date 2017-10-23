@@ -43,6 +43,7 @@ class Universe:
                                 'randomly_killed',
                                 'old_age_killed',
                                 'parents',
+                                'adults',
                                 'newborn',
                                 'predation',
                                 'caterpillars'
