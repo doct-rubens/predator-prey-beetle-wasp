@@ -48,7 +48,7 @@ class Creature:
     #    - True, if it is an adult
     #    - False, if its not
     def is_adult(self):
-        return self.age >= self.universe.adult_age[type(self)]
+        return (self.age >= self.universe.adult_age[type(self)]) and (self.is_alive())
 
     #
     # Returns a boolean value:
