@@ -12,7 +12,7 @@ from media.plotter import Plotter
 
 # reset the random generator seed (obtain same results for
 # debugging purposes)
-np.random.seed(50)
+np.random.seed(42)
 
 # beetle universe laws:
 #     mfr        - male/female ratio - male probability
@@ -25,7 +25,7 @@ np.random.seed(50)
 #     rd         - random death (chance)
 # fly universe laws parameters
 fly_params = {'mfr': 0.3, 'lm': 20, 'lv': 3, 'amin': 17, 'amax': 17,
-              'fr': 1.0, 'om': 0, 'ov': 0, 'aa': 10, 'ee': 4, 'rd': 0.05}
+              'fr': 1.0, 'om': 10, 'ov': 2, 'aa': 10, 'ee': 4, 'rd': 0.05}
 
 # moth universe laws parameters
 moth_params = {'mfr': 0.5, 'lm': 70, 'lv': 10, 'amin': 0, 'amax': 65,
@@ -50,13 +50,13 @@ n_simuls = 2
 title = 'test simulation'
 parent_path = 'output_images'
 path = 'test_simulation'
-#'living','dead','male','female','randomly_killed','old_age_killed','parents','newborn','predation','caterpillars'
+# 'living','dead','male','female','randomly_killed','old_age_killed','parents','newborn','predation','caterpillars'
 columns = ['moth-living', 'fly-living', 'fly-newborn', 'moth-female','moth-male']
 
 # output csv file generation params
 output_csv_dir = 'outputs'
 output_csv_name = 'simul_results'
-output_csv = 'none'     # can be 'all', 'mean' or 'none'
+output_csv = 'all'     # can be 'all', 'mean' or 'none'
 output_costs = 'all'  # same as above, 'all', 'mean' or 'none'
 
 # create the classes
@@ -72,5 +72,5 @@ df = s.simulation_batch(steps, n_simuls,
                         output_dir=output_csv_dir,
                         output_name=output_csv_name
                         )
-df[['moth-living', 'fly-living','fly-predation', 'fly-newborn', 'moth-newborn']].plot()
+df[['moth-living', 'moth-adults', 'fly-living', 'fly-adults']].plot()
 plt.show()
