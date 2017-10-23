@@ -17,7 +17,6 @@ import pandas as pd
 from simul.creatures import Creature
 from simul.creatures import Moth
 from simul.creatures import Fly
-from simul.universe import Universe
 
 
 class WonderfulWorld:
@@ -214,6 +213,7 @@ class WonderfulWorld:
         self.iteration_data[type(creature)]['male'] += creature.gender == 'm'
         self.iteration_data[type(creature)]['female'] += creature.gender == 'f'
         self.iteration_data[type(creature)]['caterpillars'] += creature.is_caterpillar()
+        self.iteration_data[type(creature)]['adults'] += creature.is_adult()
 
     # resets the iteration log
     def reset_iteration_log(self):
