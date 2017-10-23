@@ -28,6 +28,10 @@ class Universe:
         self.fertility_ratio = {Fly: ffr, Moth: mfr}
         self.offspring_mean = {Fly: fom, Moth: mom}
         self.offspring_var = {Fly: fov, Moth: mov}
+
+        # for the flies: adult age = flies with age above this value
+        #                            are adults. Coincidentally, the egg_age
+        #                            is equal to the adult age for them.
         self.adult_age = {Fly: faa, Moth: maa}
         self.egg_age = {Fly: fea, Moth: mea}
         self.random_death_chance = {Fly: frd, Moth: mrd}
