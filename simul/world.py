@@ -54,15 +54,15 @@ class WonderfulWorld:
         del Moth.caterpillars[:]
 
         # initializes:
-        #    - ages based on a uniform distribution
+        #    - ages based on a uniform distribution (for the moths)
+        #       ''           2 living days before their death (implemented
+        #                    internally, for the flies)
         #    - genders following the universe's male/female ratios
         self.creatures = {
             Moth: [Moth(0, age=np.random.randint(low=self.universe.initial_age_min[Moth],
                                                  high=self.universe.initial_age_max[Moth] + 1))
                    for _ in range(self.n_moths)],
-            Fly: [Fly(0, age=np.random.randint(low=self.universe.initial_age_min[Fly],
-                                               high=self.universe.initial_age_max[Fly] + 1))
-                  for _ in range(self.n_flies)]
+            Fly: [Fly(0, age=None) for _ in range(self.n_flies)]
         }
 
         # resets the newborn creatures arrays

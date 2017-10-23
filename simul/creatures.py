@@ -121,7 +121,20 @@ class Creature:
 # per se, but the typification acquired from the usage of different subclasses is
 # extremely useful
 class Fly(Creature):
-    pass
+    def __init__(self, gen, age=0):
+        self.gender = 'm' if (np.random.uniform() < self.universe.mf_ratio[type(self)]) else 'f'
+        self.fertility = True if (np.random.uniform() < self.universe.fertility_ratio[type(self)]) else False
+        self.lifespan = max([1, int(np.round(np.random.normal(loc=self.universe.lifespan_mean[type(self)],
+                                                              scale=self.universe.lifespan_var[type(self)])))])
+        # special initialization case: the flies come into the world all
+        # with 2 days to live
+        if age is None:
+            self.age = self.lifespan - 2
+        else:
+            self.age = age
+        self.alive = True
+        self.generation = gen
+        self.offspring = 0
 
 
 # Implements the class definition for moths. Has the particularity of the
