@@ -21,7 +21,7 @@ from simul.creatures import Fly
 
 class WonderfulWorld:
 
-    def __init__(self, n_moths, n_flies, universe):
+    def __init__(self, n_moths, n_flies, universe, fil=None, mil=None):
 
         self.universe = universe
         self.instant = 0
@@ -40,6 +40,7 @@ class WonderfulWorld:
         # initializes the data-saving variables
         self.data_log = pd.DataFrame(data=None, index=None, columns=self.universe.df_columns)
         self.iteration_data = {Moth: [], Fly: []}
+        self.initial_lifespan = {Fly: fil, Moth: mil}
 
     #
     # initializes the world with:
@@ -60,9 +61,13 @@ class WonderfulWorld:
         #    - genders following the universe's male/female ratios
         self.creatures = {
             Moth: [Moth(0, age=np.random.randint(low=self.universe.initial_age_min[Moth],
-                                                 high=self.universe.initial_age_max[Moth] + 1))
+                                                 high=self.universe.initial_age_max[Moth] + 1),
+                        initial_lifespan=self.initial_lifespan[Moth])
                    for _ in range(self.n_moths)],
-            Fly: [Fly(0, age=None) for _ in range(self.n_flies)]
+            Fly: [Fly(0, age=np.random.randint(low=self.universe.initial_age_min[Fly],
+                                               high=self.universe.initial_age_max[Fly] + 1),
+                      initial_lifespan=self.initial_lifespan[Fly])
+                  for _ in range(self.n_flies)]
         }
 
         # resets the newborn creatures arrays
