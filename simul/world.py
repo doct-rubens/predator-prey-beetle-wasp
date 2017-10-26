@@ -41,7 +41,6 @@ class WonderfulWorld:
         self.children = {Moth: [], Fly: []}
 
         # initializes the data-saving variables
-        self.data_log = pd.DataFrame(data=None, index=None, columns=self.universe.df_columns)
         self.iteration_data = {Moth: [], Fly: []}
         self.initial_lifespan = {Fly: fil, Moth: mil}
 
@@ -51,7 +50,7 @@ class WonderfulWorld:
     #       with limits defined by the universe
     #     - resets the current instant
     #     -
-    def initialize_world(self):
+    def initialize_world(self, n_steps):
         self.instant = 0
 
         # reset the list of caterpillars, if it wasn't already empty
@@ -78,9 +77,9 @@ class WonderfulWorld:
 
         # initializes the output log with the first
         # values for the creatures' features
-        self.reset_iteration_log()
+        self.reset_iteration_log(n_steps)
         self.initialize_log()
-        self.save_iteration_log()
+        # self.save_iteration_log()
 
     #
     # kills the current creature. Previously, it automatically removed the
@@ -102,8 +101,8 @@ class WonderfulWorld:
 
         # we update our iteration data (that we want to visualise when the simulation
         # ends) with these new numbers
-        self.iteration_data[type(creature)]['parents'] += 1
-        self.iteration_data[type(creature)]['newborn'] += len(children)
+        self.iteration_data[type(creature)]['parents'][self.instant] += 1
+        self.iteration_data[type(creature)]['newborn'][self.instant] += len(children)
 
     #
     # Checks if a creature should randomly die. If yes, kills it and
@@ -111,7 +110,7 @@ class WonderfulWorld:
     # whether the creature actually died or not
     def random_death(self, creature):
         if creature.random_death():
-            self.iteration_data[type(creature)]['randomly_killed'] += 1
+            self.iteration_data[type(creature)]['randomly_killed'][self.instant] += 1
             self.kill(creature)
             return True
         else:
@@ -123,7 +122,7 @@ class WonderfulWorld:
     # whether the creature actually died or not
     def old_age_death(self, creature):
         if creature.old_age_death():
-            self.iteration_data[type(creature)]['old_age_killed'] += 1
+            self.iteration_data[type(creature)]['old_age_killed'][self.instant] += 1
             self.kill(creature)
             return True
         else:
@@ -149,8 +148,8 @@ class WonderfulWorld:
     #
     # Afterwards, we procreate the fly that just performed the predation.
     def predation(self, fly):
-        self.iteration_data[Fly]['predation'] += 1
-        self.iteration_data[Moth]['dead'] += 1
+        self.iteration_data[Fly]['predation'][self.instant] += 1
+        self.iteration_data[Moth]['dead'][self.instant] += 1
 
         # get the lucky bastard (caterpillars) by its horns
         lucky_caterpillar = Moth.caterpillars[np.random.randint(low=0,
@@ -167,7 +166,7 @@ class WonderfulWorld:
     def single_step(self):
 
         # we reset the iteration log and update the current instant
-        self.reset_iteration_log()
+        # self.reset_iteration_log()
         self.instant = self.instant + 1
 
         # fly stuff:
@@ -206,7 +205,7 @@ class WonderfulWorld:
             self.log_creature(moth)
         self.update_list(Moth)
 
-        self.save_iteration_log()
+        # self.save_iteration_log()
 
     # removes the dead and insert the newborn creatures on the lists
     def update_list(self, creature_type):
@@ -216,32 +215,34 @@ class WonderfulWorld:
 
     # save the useful data on a dataframe for each generation
     def log_creature(self, creature):
-        self.iteration_data[type(creature)]['living'] += creature.is_alive()
-        self.iteration_data[type(creature)]['dead'] += creature.is_dead()
-        self.iteration_data[type(creature)]['male'] += creature.gender == 'm'
-        self.iteration_data[type(creature)]['female'] += creature.gender == 'f'
-        self.iteration_data[type(creature)]['caterpillars'] += creature.is_caterpillar()
-        self.iteration_data[type(creature)]['adults'] += creature.is_adult()
+        self.iteration_data[type(creature)]['living'][self.instant] += creature.is_alive()
+        self.iteration_data[type(creature)]['dead'][self.instant] += creature.is_dead()
+        self.iteration_data[type(creature)]['male'][self.instant] += creature.gender == 'm'
+        self.iteration_data[type(creature)]['female'][self.instant] += creature.gender == 'f'
+        self.iteration_data[type(creature)]['caterpillars'][self.instant] += creature.is_caterpillar()
+        self.iteration_data[type(creature)]['adults'][self.instant] += creature.is_adult()
 
     # resets the iteration log
-    def reset_iteration_log(self):
+    def reset_iteration_log(self, n_steps):
+        # A SINGLE NP.ZEROS() OBJECT IS BEING INSTANTIATED AND PASSED TO ALL OF THE DICTIONARY FIELDS;
+        # THAT MEANS THAT ALL FIELDS WILL POINT TO THE SAME ARRAY AND WHEN WE CHANGE THE VALUE ON
+        # ONE VIEW, ALL OF THE OTHERS WILL CHANGE AS WELL.
+        # self.iteration_data = {
+        #     Moth: dict.fromkeys(self.universe.recordable_data, []),
+        #     Fly: dict.fromkeys(self.universe.recordable_data, [])
+        # }
+        #
+        # now down here, we instantiate one array filled with zeroes for each field
         self.iteration_data = {
-            Moth: dict.fromkeys(self.universe.recordable_data, 0),
-            Fly: dict.fromkeys(self.universe.recordable_data, 0)
+            Fly: {col: np.zeros(n_steps + 1) for col in self.universe.recordable_data},
+            Moth: {col: np.zeros(n_steps + 1) for col in self.universe.recordable_data}
         }
-
-    # saves the current iteration's log on the dataframe
-    def save_iteration_log(self):
-        self.data_log = self.data_log.append(pd.DataFrame(data=[list(self.iteration_data[Moth].values()) +
-                                                                list(self.iteration_data[Fly].values())],
-                                                          index=[len(self.data_log)],
-                                                          columns=self.universe.df_columns))
 
     #
     # initializes the dataframe by creating it empty, logging in all the creatures
     # and saving on it as its first element
     def initialize_log(self):
-        self.data_log = pd.DataFrame(data=None, index=None, columns=self.universe.df_columns)
+        # self.data_log = pd.DataFrame(data=None, index=None, columns=self.universe.df_columns)
 
         for moth in self.creatures[Moth]:
             self.log_creature(moth)
@@ -258,8 +259,12 @@ class WonderfulWorld:
         self.n_moths = n_moths
         self.n_flies = n_flies
 
-        self.initialize_world()
+        self.initialize_world(end_of_times)
         for _ in range(end_of_times):
             self.single_step()
 
-        return self.data_log
+        return pd.DataFrame(data={(creature_type.name() + col): self.iteration_data[creature_type][col]
+                                  for creature_type in [Fly, Moth]
+                                  for col in self.universe.recordable_data},
+                            index=range(end_of_times + 1),
+                            columns=self.universe.df_columns)
