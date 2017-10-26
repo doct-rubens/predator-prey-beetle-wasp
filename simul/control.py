@@ -84,6 +84,15 @@ class SimulationControl:
                 costs_df = pd.DataFrame(columns=_COST_COLUMNS)
                 costs_idx_offset = 0
 
+        costs_data = dict.fromkeys(_COST_COLUMNS, [])
+        if output_costs == 'all':
+            for col in costs_data:
+                costs_data[col] = np.zeros(n_simuls + 1)
+
+        if output_costs == 'mean':
+            for col in costs_data:
+                costs_data[col] = [0]
+
         snp = max([1, int(np.ceil(np.log10(n_simuls + 1)))])
         avg_simul_log = self.empty_data_log(simul_time + 1)
         for i in range(n_simuls):
@@ -97,13 +106,11 @@ class SimulationControl:
                                             output_name + ('_{0:0{1}}.csv'.format(i, snp))))
 
             if output_costs == 'all':
-                costs_df = costs_df.append(pd.DataFrame(data=[[self.world.n_moths,
-                                                              self.world.n_flies,
-                                                              simul_time,
-                                                              1,
-                                                              self.cost(curr_df)]],
-                                                        index=[costs_idx_offset + i],
-                                                        columns=_COST_COLUMNS))
+                costs_data['#moths'][i] = self.world.n_moths
+                costs_data['#flies'][i] = self.world.n_flies
+                costs_data['#steps'][i] = simul_time
+                costs_data['#simuls'][i] = 1
+                costs_data['cost'][i] = self.cost(curr_df)
 
             avg_simul_log = avg_simul_log + curr_df
 
@@ -116,12 +123,14 @@ class SimulationControl:
             avg_simul_log.to_csv(os.path.join(output_dir, output_name + '_mean.csv'))
 
         if output_costs != 'none':
-            costs_df = costs_df.append(pd.DataFrame(data=[[self.world.n_moths,
-                                                          self.world.n_flies,
-                                                          simul_time,
-                                                          n_simuls,
-                                                          self.cost(avg_simul_log)]],
-                                                    index=[len(costs_df)],
+            costs_data['#moths'][-1] = self.world.n_moths
+            costs_data['#flies'][-1] = self.world.n_flies
+            costs_data['#steps'][-1] = simul_time
+            costs_data['#simuls'][-1] = n_simuls
+            costs_data['cost'][-1] = self.cost(avg_simul_log)
+            costs_df = costs_df.append(pd.DataFrame(data=costs_data,
+                                                    index=range(costs_idx_offset,
+                                                                costs_idx_offset + len(costs_data['#moths'])),
                                                     columns=_COST_COLUMNS))
             costs_df.to_csv(os.path.join(output_dir, output_costs_name + '.csv'))
 

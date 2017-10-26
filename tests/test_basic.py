@@ -61,7 +61,7 @@ columns = ['moth-living', 'fly-living', 'fly-newborn', 'moth-female', 'moth-male
 output_csv_dir = 'outputs'
 output_csv_name = 'simul_results'
 output_csv = 'all'     # can be 'all', 'mean' or 'none'
-output_costs = 'all'  # same as above, 'all', 'mean' or 'none'
+output_costs = 'mean'  # same as above, 'all', 'mean' or 'none'
 
 # create the classes
 my_plotter = Plotter(title, path, columns, n_simuls, parent_path=parent_path)
@@ -76,5 +76,5 @@ df = s.simulation_batch(nf, nm, steps, n_simuls,
                         output_dir=output_csv_dir,
                         output_name=output_csv_name
                         )
-df[['moth-living', 'moth-adults', 'fly-living', 'fly-adults']].plot()
+df[['moth-living', 'fly-living']].plot()
 plt.show()
