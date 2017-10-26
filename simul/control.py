@@ -14,6 +14,7 @@ import os
 import numpy as np
 import pandas as pd
 import scipy.integrate as integrate
+from funcs.bayes import bayes_cost
 
 _COST_COLUMNS = ['#flies', '#moths', '#steps', '#simuls', 'cost']
 _BAYES_COST_COLUMNS = ['#flies', 'sample_#moth', 'sample_area', 'bayes_cost']
@@ -158,3 +159,52 @@ class SimulationControl:
             self.simulation_batch(initial_pop['#flies'], initial_pop['#moths'], simul_time,  n_simuls,
                                   output_csv=output_csv, output_costs=output_costs,
                                   output_dir=output_dir, output_name=output_name)
+
+    #
+    # A : sample area (float)
+    # sample_n_moths : number of moths in sampled area (integer)
+    # w_list : list with values for which we want to evaluate the bayes cost
+    # p_data : dataframe with initial moth density, probability ('p', 'P(p)')
+    # costs  : dataframe with simple cost data
+    #
+    # returns : success (bool), dataframe with columns
+    #           ('n_flies', 'moth_density', 'sample_n_moth', 'sample_area', 'bayes_cost')
+    def bayes_cost_function(self, p_data, sample_n_moths, sample_area, n_flies_list, costs):
+
+        # check if the costs dataframe has at least 1 row for all of
+        # the required costs
+        missing_simulation_values = {'#moths': [], '#flies': []}
+        for dens_moths in p_data['p'].values:
+            for n_flies in n_flies_list:
+                if not len(costs[(costs['#moths'] == (dens_moths * self.density_factor)) &
+                                 (costs['#flies'] == n_flies)]):
+                    missing_simulation_values['#moths'].append(int(dens_moths * self.density_factor))
+                    missing_simulation_values['#flies'].append(int(n_flies))
+
+        # if the list is not empty ==> there are missing simulations.
+        # we return the values of the missing simulations on this dictionary
+        if not (not missing_simulation_values['#moths']):
+            success = False
+            return success, pd.DataFrame(data=missing_simulation_values,
+                                         index=range(len(missing_simulation_values['#moths'])),
+                                         columns=['#flies', '#moths'])
+
+        #
+        # otherwise, we can proceed with the bayes calculations
+        success = True
+        bayes_cost_data = {
+            '#flies': np.array(n_flies_list),
+            'sample_#moth': np.array([sample_n_moths] * len(n_flies_list)),
+            'sample_area': np.array([sample_area] * len(n_flies_list)),
+            'bayes_cost': np.zeros(len(n_flies_list))
+        }
+
+        # loop over the possible n_flies values
+        for idx, n_flies in enumerate(n_flies_list):
+            bayes_cost_data['bayes_cost'][idx] = bayes_cost(p_data['p'].values, p_data['P(p)'].values,
+                                                            sample_n_moths, sample_area, n_flies,
+                                                            density_factor=self.density_factor,
+                                                            costs=costs[costs['#flies'] == n_flies][
+                                                                ['#moths', '#flies', 'cost']])
+
+        return success, pd.DataFrame(data=bayes_cost_data, index=range(len(n_flies_list)), columns=_BAYES_COST_COLUMNS)
