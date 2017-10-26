@@ -3,26 +3,30 @@
 # Python file that will implement the Bayes cost function
 # on the funcs subpackage.
 #
-# Receives two arguments:
-#    - distr_file : path to the file with the distribution data.
-#    - simul_file : path to the file with the costs from the
-#                   simulations
-#    - A        : Area evaluated
-#    - n_moths  : number of moths on the sample
-#    - n_wasps  : initial number of wasps
+# Receives as arguments:
+# A       : area (float)
+# n_moths : number of moths (int)
+# n_flies : number of flies (int)
+# cost    : cost without bayes (dataframe, has the 'n_flies' and the 'n_moths' columns)
+# dens_moths       : list with moth densities
+# prob_dens_moths : list with moth density probabilities
+#
+# If the cost dataframe has several different rows for the same n_moths
+# and n_flies, it uses only the last one (expected to be the more 'recent' one)
+#
+# The interface for calling this function is responsible for the verification if the
+# dataframes have all required values
+
+from .poisson import poisson
 
 
-def bayes_cost(distr_file, simul_file):
+def bayes_cost(dens_moths, prob_dens_moths, sample_n_moths, sample_area, n_flies, density_factor, costs):
+    cost_b = 0
+    norm_factor = 0
+    for idx in range(len(dens_moths)):
+        local_prob = poisson(sample_n_moths, sample_area, dens_moths[idx]) * prob_dens_moths[idx]
+        cost_b += local_prob * costs[(costs['#moths'] == (dens_moths[idx] * density_factor)) &
+                                     (costs['#flies'] == n_flies)]['cost'].iloc[-1]
+        norm_factor += local_prob
 
-    # 1. save the moth densities on a list (or df) 'ro'
-
-    # 2. for r in ro:
-
-    #      2.1. evaluate the simple cost C(r, n_wasps) (it must be on the simul_file)
-    #      2.2. evaluate Poisson(r | n_moths, A)
-    #      2.3. take the product
-    #      2.4. cumulatively add
-
-    # 3. end
-
-    pass
+    return cost_b / norm_factor
