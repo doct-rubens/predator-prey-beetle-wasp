@@ -254,7 +254,7 @@ class WonderfulWorld:
     #
     # Returns the dataframe with the outputs generated from the
     # simulation.
-    def run_world(self, n_moths, n_flies, end_of_times):
+    def run_world(self, n_flies, n_moths, end_of_times):
         self.n_moths = n_moths
         self.n_flies = n_flies
 

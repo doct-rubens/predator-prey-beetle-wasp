@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 import scipy.integrate as integrate
 
-_COST_COLUMNS = ['#moths', '#flies', '#steps', '#simuls', 'cost']
+_COST_COLUMNS = ['#flies', '#moths', '#steps', '#simuls', 'cost']
 _BAYES_COST_COLUMNS = ['#flies', 'sample_#moth', 'sample_area', 'bayes_cost']
 
 
@@ -61,7 +61,7 @@ class SimulationControl:
     # file and save the costs data on it, under the directory
     #       output_dir / output_costs_name_{simul_idx}.csv
     def simulation_batch(self, simul_time, n_simuls,
-                         n_moths, n_flies,
+                         n_flies, n_moths,
                          output_csv='none', output_costs='none',
                          output_dir='outputs', output_name='simul'):
 
@@ -90,7 +90,7 @@ class SimulationControl:
         for i in range(n_simuls):
 
             # current simulation dataframe results
-            curr_df = self.world.run_world(n_moths, n_flies, simul_time)
+            curr_df = self.world.run_world(n_flies, n_moths, simul_time)
 
             # if output saving mode is set to 'all', save these results
             if output_csv == 'all':
@@ -146,6 +146,6 @@ class SimulationControl:
                          ):
 
         for _, initial_pop in initial_populations.iterrows():
-            self.simulation_batch(simul_time,  n_simuls, initial_pop['#moths'], initial_pop['#flies'],
+            self.simulation_batch(simul_time,  n_simuls, initial_pop['#flies'], initial_pop['#moths'],
                                   output_csv=output_csv, output_costs=output_costs,
                                   output_dir=output_dir, output_name=output_name)
