@@ -137,3 +137,15 @@ class SimulationControl:
                                           dtype=int),
                             index=range(elems),
                             columns=self.world.universe.df_columns)
+
+    # runs simulation batches with the initial #moths and #flies defined on a
+    # dataframe passed as argument
+    def run_some_batches(self, initial_populations, simul_time, n_simuls,
+                         output_csv='none', output_costs='none',
+                         output_dir='outputs', output_name='simul'
+                         ):
+
+        for _, initial_pop in initial_populations.iterrows():
+            self.simulation_batch(simul_time,  n_simuls, initial_pop['#moths'], initial_pop['#flies'],
+                                  output_csv=output_csv, output_costs=output_costs,
+                                  output_dir=output_dir, output_name=output_name)
