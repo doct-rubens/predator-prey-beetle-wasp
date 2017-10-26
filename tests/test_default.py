@@ -24,8 +24,9 @@ output_costs = 'all'  # same as above, 'all', 'mean' or 'none'
 
 u, w, sc, my_plotter = init_default()
 
-# run a simulation batch
-df = sc.simulation_batch(steps, n_simuls, nf, nm,
+# run a couple of simulation batches based on the missing
+# values based on an external dataframe
+df = sc.run_some_batches(nf, nm, steps, n_simuls,
                          output_csv=output_csv,
                          output_costs=output_costs,
                          output_dir=output_csv_dir,

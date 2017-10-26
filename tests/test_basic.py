@@ -70,7 +70,7 @@ w = WonderfulWorld(u, fil=fil, mil=mil)
 s = SimulationControl(w, *costs.values(), plotter=my_plotter)
 
 # run a simulation batch
-df = s.simulation_batch(steps, nf, nm, n_simuls,
+df = s.simulation_batch(nf, nm, steps, n_simuls,
                         output_csv=output_csv,
                         output_costs=output_costs,
                         output_dir=output_csv_dir,

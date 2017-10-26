@@ -60,8 +60,7 @@ class SimulationControl:
     # Checks the output_costs parameter to open/create a new costs csv
     # file and save the costs data on it, under the directory
     #       output_dir / output_costs_name_{simul_idx}.csv
-    def simulation_batch(self, simul_time, n_simuls,
-                         n_flies, n_moths,
+    def simulation_batch(self, n_flies, n_moths, simul_time, n_simuls,
                          output_csv='none', output_costs='none',
                          output_dir='outputs', output_name='simul'):
 
