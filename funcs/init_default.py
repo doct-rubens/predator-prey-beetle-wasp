@@ -44,16 +44,12 @@ def init_default():
     #######################################################
     # ############ WORLD INITIALISATION ###################
     #######################################################
-    # initial number of flies and moths
-    nf = 100
-    nm = 100
-
     # fly and moth initial lifespans (world dependent)
     fil = None
-    mil = 5
+    mil = None
 
     # world instantiation
-    w = WonderfulWorld(nm, nf, u, fil=fil, mil=mil)
+    w = WonderfulWorld(u, fil=fil, mil=mil)
 
     #######################################################
     # ############ PLOTTER INITIALISATION #################
