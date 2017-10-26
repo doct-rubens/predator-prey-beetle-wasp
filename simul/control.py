@@ -21,11 +21,17 @@ _COST_COLUMNS = ['#moths', '#flies', '#steps', '#simuls', 'cost']
 class SimulationControl:
 
     # receives a world to be simulated and the costs
-    def __init__(self, world, cost_fly, cost_moth, plotter=None):
+    #
+    # the density_factor attribute indicates the relation between the moth density
+    # and probabilities file and the actual number of moths
+    # dim[density factor] : hectare (area)
+    # density_factor * density : hectare * (n_moths / hectare) = n_moths
+    def __init__(self, world, cost_fly, cost_moth, plotter=None, density_factor=10000):
         self.world = world
         self.cost_fly = cost_fly
         self.cost_moth = cost_moth
         self.plotter = plotter
+        self.density_factor = density_factor
 
     #
     # cost function computation, given the output of the
