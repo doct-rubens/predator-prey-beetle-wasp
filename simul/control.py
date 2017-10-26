@@ -61,6 +61,7 @@ class SimulationControl:
     # file and save the costs data on it, under the directory
     #       output_dir / output_costs_name_{simul_idx}.csv
     def simulation_batch(self, simul_time, n_simuls,
+                         n_moths, n_flies,
                          output_csv='none', output_costs='none',
                          output_dir='outputs', output_name='simul'):
 
@@ -89,7 +90,7 @@ class SimulationControl:
         for i in range(n_simuls):
 
             # current simulation dataframe results
-            curr_df = self.world.run_world(simul_time)
+            curr_df = self.world.run_world(n_moths, n_flies, simul_time)
 
             # if output saving mode is set to 'all', save these results
             if output_csv == 'all':
