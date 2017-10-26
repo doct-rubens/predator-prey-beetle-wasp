@@ -44,7 +44,7 @@ nm = 100
 
 # fly and moth initial lifespans (world dependent)
 fil = None
-mil = 5
+mil = None
 
 # number of simulation steps and number of simulations
 steps = 100
@@ -66,11 +66,11 @@ output_costs = 'all'  # same as above, 'all', 'mean' or 'none'
 # create the classes
 my_plotter = Plotter(title, path, columns, n_simuls, parent_path=parent_path)
 u = Universe(*fly_params.values(), *moth_params.values(), *other_params.values())
-w = WonderfulWorld(nm, nf, u, fil=fil, mil=mil)
+w = WonderfulWorld(u, fil=fil, mil=mil)
 s = SimulationControl(w, *costs.values(), plotter=my_plotter)
 
 # run a simulation batch
-df = s.simulation_batch(steps, n_simuls,
+df = s.simulation_batch(steps, nf, nm, n_simuls,
                         output_csv=output_csv,
                         output_costs=output_costs,
                         output_dir=output_csv_dir,
