@@ -128,7 +128,7 @@ class Fly(Creature):
     # method used on the column naming for the return dataframe
     @staticmethod
     def name():
-        return 'fly'
+        return 'fly-'
 
 
 # Implements the class definition for moths. Has the particularity of the
@@ -138,7 +138,7 @@ class Moth(Creature):
     # method used on the column naming for the return dataframe
     @staticmethod
     def name():
-        return 'moth'
+        return 'moth-'
 
     # initializes a static list of caterpillars, that will hold references
     # to the Moth objects that are actual caterpillars
