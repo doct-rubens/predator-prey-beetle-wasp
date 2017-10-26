@@ -21,13 +21,13 @@ from simul.creatures import Fly
 
 class WonderfulWorld:
 
-    def __init__(self, n_moths, n_flies, universe, fil=None, mil=None):
+    def __init__(self, universe, fil=None, mil=None):
 
         self.universe = universe
         self.instant = 0
 
-        self.n_moths = n_moths
-        self.n_flies = n_flies
+        self.n_moths = 0
+        self.n_flies = 0
 
         # indexes the universe applied to the world to be the one
         # globally applied to all creatures
@@ -251,7 +251,9 @@ class WonderfulWorld:
     #
     # Returns the dataframe with the outputs generated from the
     # simulation.
-    def run_world(self, end_of_times):
+    def run_world(self, n_moths, n_flies, end_of_times):
+        self.n_moths = n_moths
+        self.n_flies = n_flies
 
         self.initialize_world()
         for _ in range(end_of_times):
