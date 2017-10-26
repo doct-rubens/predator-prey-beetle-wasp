@@ -145,6 +145,7 @@ class SimulationControl:
                          ):
 
         for _, initial_pop in initial_populations.iterrows():
-            self.simulation_batch(simul_time,  n_simuls, initial_pop['#flies'], initial_pop['#moths'],
+            print('running batch for #flies={}, #moths={}'.format(initial_pop['#flies'], initial_pop['#moths']))
+            self.simulation_batch(initial_pop['#flies'], initial_pop['#moths'], simul_time,  n_simuls,
                                   output_csv=output_csv, output_costs=output_costs,
                                   output_dir=output_dir, output_name=output_name)
