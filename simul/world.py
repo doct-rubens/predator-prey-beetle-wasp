@@ -21,6 +21,9 @@ from simul.creatures import Fly
 
 class WonderfulWorld:
 
+    # the class instantiation creates the world up to the 4th creation day only: not habitated;
+    # the 5th-6th creation days come only when we call the run_world() method,
+    # from its beginning to its end
     def __init__(self, universe, fil=None, mil=None):
 
         self.universe = universe
