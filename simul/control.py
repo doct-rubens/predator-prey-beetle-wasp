@@ -16,6 +16,7 @@ import pandas as pd
 import scipy.integrate as integrate
 
 _COST_COLUMNS = ['#moths', '#flies', '#steps', '#simuls', 'cost']
+_BAYES_COST_COLUMNS = ['dens_moth', '#flies', 'sample_#moth', 'sample_area', 'bayes_cost', 'cost']
 
 
 class SimulationControl:
