@@ -36,7 +36,7 @@ moth_params = {'mfr': 0.5, 'lm': 70, 'lv': 10, 'amin': 0, 'amax': 65,
 other_params = {'pc': 1.0}
 
 # default costs:
-costs = {'fly': 20.0, 'moth': 12.0}
+costs = {'fly': 0.0027, 'moth': 0.005}
 
 # initial number of flies and moths
 nf = 100
