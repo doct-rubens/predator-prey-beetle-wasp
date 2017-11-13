@@ -12,8 +12,8 @@ import os
 from funcs.init_default import init_default
 
 # simulation batch parameters
-steps = 10
-n_simuls = 3
+steps = 50
+n_simuls = 10
 nf = 50
 nm = 100
 
@@ -24,7 +24,7 @@ output_csv = 'mean'     # can be 'all', 'mean' or 'none'
 output_costs = 'mean'  # same as above, 'all', 'mean' or 'none'
 
 # data files
-densities_file = os.path.join('..', 'data', 'my_densities.csv')
+densities_file = os.path.join('..', 'data', 'Densidades.csv')
 initial_pops_file = os.path.join('..', 'data', 'my_initial_pops.csv')
 
 u, w, sc, my_plotter = init_default()
@@ -42,7 +42,7 @@ u, w, sc, my_plotter = init_default()
 # bayes cost function testing
 sample_n_moths = 12
 sample_area = 120
-n_flies_list = [500, 1000, 1500]
+n_flies_list = [1500, 3000, 4500, 6000]
 success, cost = sc.bayes_cost_function(pd.read_csv(densities_file), sample_n_moths, sample_area, n_flies_list,
                                        pd.read_csv(os.path.join(output_csv_dir, output_csv_name + '_cost.csv')))
 if success:
@@ -55,3 +55,4 @@ else:
     print('the following simulations are missing:')
     print(cost)
     print("saving these missing initial populations on file '{}'".format(initial_pops_file))
+    cost.to_csv(initial_pops_file)
