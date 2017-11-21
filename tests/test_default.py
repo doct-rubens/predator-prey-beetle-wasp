@@ -14,8 +14,8 @@ from funcs.init_default import init_default
 # simulation batch parameters
 steps = 50
 n_simuls = 10
-nf = 50
-nm = 100
+#nf = 50
+#nm = 100
 
 # output csv file generation params
 output_csv_dir = 'outputs'
@@ -42,7 +42,7 @@ u, w, sc, my_plotter = init_default()
 # bayes cost function testing
 sample_n_moths = 12
 sample_area = 120
-n_flies_list = [1500, 3000, 4500, 6000]
+n_flies_list = [0,1500, 3000, 4500, 6000]
 success, cost = sc.bayes_cost_function(pd.read_csv(densities_file), sample_n_moths, sample_area, n_flies_list,
                                        pd.read_csv(os.path.join(output_csv_dir, output_csv_name + '_cost.csv')))
 if success:
