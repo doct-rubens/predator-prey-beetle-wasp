@@ -150,9 +150,16 @@ class SimulationControl:
     # runs simulation batches with the initial #moths and #flies defined on a
     # dataframe passed as argument
     def run_some_batches(self, initial_populations, simul_time, n_simuls,
+                         lines=None,
                          output_csv='none', output_costs='none',
                          output_dir='outputs', output_name='simul'
                          ):
+
+        # limits the dataframe of simulations to be executed based
+        # on the 'lines' parameter
+        if lines is not None:
+            lines[1] = min([len(initial_populations), lines[1]])
+            initial_populations = initial_populations.iloc[lines[0]:lines[1]]
 
         for _, initial_pop in initial_populations.iterrows():
             print('running batch for #flies={}, #moths={}'.format(initial_pop['#flies'], initial_pop['#moths']))

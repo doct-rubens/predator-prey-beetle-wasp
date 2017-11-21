@@ -27,12 +27,19 @@ output_costs = 'mean'  # same as above, 'all', 'mean' or 'none'
 densities_file = os.path.join('..', 'data', 'Densidades.csv')
 initial_pops_file = os.path.join('..', 'data', 'my_initial_pops.csv')
 
+# lines from the initial_pops_file that must be used to run
+# simulations - [lower_bound, upper_bound (not included)]
+# example: initial_pops_lines = [0, 3] will make the program run
+# simulation for lines 0 and 1 only (2 in total)
+initial_pops_lines = [0, 322]
+
 u, w, sc, my_plotter = init_default()
 
 # run a couple of simulation batches based on the missing
 # values based on an external dataframe
 sc.run_some_batches(pd.read_csv(initial_pops_file),
                     steps, n_simuls,
+                    lines=initial_pops_lines,   # lines from file that must be executed
                     output_csv=output_csv,
                     output_costs=output_costs,
                     output_dir=output_csv_dir,
