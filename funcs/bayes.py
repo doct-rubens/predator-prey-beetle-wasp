@@ -25,7 +25,7 @@ def bayes_cost(dens_moths, prob_dens_moths, sample_n_moths, sample_area, n_flies
     norm_factor = 0
     for idx in range(len(dens_moths)):
         local_prob = poisson(sample_n_moths, sample_area, dens_moths[idx]) * prob_dens_moths[idx]
-        cost_b += local_prob * costs[(costs['#moths'] == (dens_moths[idx] * density_factor)) &
+        cost_b += local_prob * costs[(costs['#moths'] == int(dens_moths[idx] * density_factor)) &
                                      (costs['#flies'] == n_flies)]['cost'].iloc[-1]
         norm_factor += local_prob
 

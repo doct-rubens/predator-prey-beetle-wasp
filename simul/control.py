@@ -176,7 +176,7 @@ class SimulationControl:
         missing_simulation_values = {'#moths': [], '#flies': []}
         for dens_moths in p_data['p'].values:
             for n_flies in n_flies_list:
-                if not len(costs[(costs['#moths'] == (dens_moths * self.density_factor)) &
+                if not len(costs[(costs['#moths'] == int(dens_moths * self.density_factor)) &
                                  (costs['#flies'] == n_flies)]):
                     missing_simulation_values['#moths'].append(int(dens_moths * self.density_factor))
                     missing_simulation_values['#flies'].append(int(n_flies))
