@@ -40,9 +40,17 @@ u, w, sc, my_plotter = init_default()
 #                    )
 
 # bayes cost function testing
-sample_n_moths = 12
-sample_area = 120
-n_flies_list = [0, 1500, 3000, 4500, 6000]
+
+sample_n_moths = 96
+sample_area = 315
+# n_flies_list = [0,1500, 3000, 4500, 6000]
+
+# flies list declaration
+fly_step = 1500
+fly_max = 40000
+n_flies_list = list(range(0, fly_max, fly_step))
+print(n_flies_list)
+
 success, cost = sc.bayes_cost_function(pd.read_csv(densities_file), sample_n_moths, sample_area, n_flies_list,
                                        pd.read_csv(os.path.join(output_csv_dir, output_csv_name + '_cost.csv'),
                                                    index_col=[0]))
