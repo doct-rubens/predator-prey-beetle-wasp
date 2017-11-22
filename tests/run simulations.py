@@ -31,7 +31,7 @@ initial_pops_file = os.path.join('..', 'data', 'my_initial_pops.csv')
 # simulations - [lower_bound, upper_bound (not included)]
 # example: initial_pops_lines = [0, 3] will make the program run
 # simulation for lines 0 and 1 only (2 in total)
-initial_pops_lines = [0, 200]
+initial_pops_lines = [200, 400]
 
 u, w, sc, my_plotter = init_default()
 
