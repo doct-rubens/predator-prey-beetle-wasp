@@ -36,7 +36,7 @@ def init_default():
 
     # other parameters:
     #     pc        - predation coefficient
-    other_params = {'pc': 1.0}
+    other_params = {'pc': 10.0}
 
     # universe instantiation
     u = Universe(*fly_params.values(), *moth_params.values(), *other_params.values())
@@ -45,7 +45,7 @@ def init_default():
     # ############ WORLD INITIALISATION ###################
     #######################################################
     # fly and moth initial lifespans (world dependent)
-    fil = 2
+    fil = 1
     mil = None
 
     # world instantiation
