@@ -27,16 +27,16 @@ def init_default():
     #     ee         - egg age (ea, less or equal is egg)
     #     rd         - random death (chance)
     # fly universe laws parameters
-    fly_params = {'mfr': 0.3, 'lm': 20, 'lv': 3, 'amin': 17, 'amax': 17,
-                  'fr': 1.0, 'om': 10, 'ov': 2, 'aa': 10, 'ee': 4, 'rd': 0.05}
+    fly_params = {'mfr': 0.3, 'lm': 24, 'lv': 4, 'amin': 17, 'amax': 17,
+                  'fr': 1.0, 'om': 28, 'ov': 19, 'aa': 15, 'ee': 9, 'rd': 0.05}
 
     # moth universe laws parameters
-    moth_params = {'mfr': 0.5, 'lm': 70, 'lv': 10, 'amin': 0, 'amax': 65,
-                   'fr': 1.0, 'om': 0, 'ov': 0, 'aa': 60, 'ee': 15, 'rd': 0.03}
+    moth_params = {'mfr': 0.5, 'lm': 70, 'lv': 2, 'amin': 0, 'amax': 65,
+                   'fr': 1.0, 'om': 60, 'ov': 20, 'aa': 63, 'ee': 10, 'rd': 0.03}
 
     # other parameters:
     #     pc        - predation coefficient
-    other_params = {'pc': 1.0}
+    other_params = {'pc': 10.0}
 
     # universe instantiation
     u = Universe(*fly_params.values(), *moth_params.values(), *other_params.values())
@@ -45,7 +45,7 @@ def init_default():
     # ############ WORLD INITIALISATION ###################
     #######################################################
     # fly and moth initial lifespans (world dependent)
-    fil = None
+    fil = 1
     mil = None
 
     # world instantiation
@@ -55,7 +55,8 @@ def init_default():
     # ############ PLOTTER INITIALISATION #################
     #######################################################
     # number of simulation steps and number of simulations
-    n_simuls = 2
+    steps = 50
+    n_simuls = 10
 
     # image generation params
     title = 'test simulation'
@@ -70,7 +71,7 @@ def init_default():
     # ############ CONTROL INITIALISATION #################
     #######################################################
     # default costs:
-    costs = {'fly': 20.0, 'moth': 12.0}
+    costs = {'fly': 0.0027, 'moth': 0.005}
 
     # simul control instantiation
     sc = SimulationControl(w, *costs.values(), plotter=my_plotter)

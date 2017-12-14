@@ -32,8 +32,10 @@ final_df = pd.DataFrame(data=[], columns=_BAYES_COST_COLUMNS)
 
 # definition of the list with initial number of flies
 # that must be used to calculate the simulations
-n_flies_list = [0, 1500]
-
+#n_flies_list = [0, 6000]
+fly_step = 1500
+fly_max = 40000
+n_flies_list = list(range(0, fly_max, fly_step))
 # iterates over the possible values for sample_n_moths and sample_area
 for _, samples_tuple in samples_data.iterrows():
     print(samples_tuple['n'], samples_tuple['A'])
