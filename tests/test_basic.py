@@ -39,12 +39,12 @@ other_params = {'pc': 10.0}
 costs = {'fly': 0.0027, 'moth': 0.005}
 
 # initial number of flies and moths
-nf = 6000
+nf = 0
 nm = 2500
 
 # number of simulation steps and number of simulations
 steps = 200
-n_simuls = 20
+n_simuls = 1
 
 # image generation params
 title = 'test simulation'
