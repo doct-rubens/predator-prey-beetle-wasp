@@ -27,7 +27,7 @@ def init_default():
     #     ee         - egg age (ea, less or equal is egg)
     #     rd         - random death (chance)
     # fly universe laws parameters
-    fly_params = {'mfr': 0.3, 'lm': 24, 'lv': 4, 'amin': 17, 'amax': 17,
+    fly_params = {'mfr': 0.3, 'lm': 24, 'lv': 4, 'amin': 22, 'amax': 22,
                   'fr': 1.0, 'om': 28, 'ov': 19, 'aa': 15, 'ee': 9, 'rd': 0.05}
 
     # moth universe laws parameters
@@ -55,8 +55,8 @@ def init_default():
     # ############ PLOTTER INITIALISATION #################
     #######################################################
     # number of simulation steps and number of simulations
-    steps = 50
-    n_simuls = 10
+    steps = 200
+    n_simuls = 1
 
     # image generation params
     title = 'test simulation'
