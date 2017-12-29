@@ -93,8 +93,33 @@ O sistema de simulação possui três classes implementadas seguindo uma estrutu
 
 2.. FLUXO DE INFORMAÇÃO
 -----------------------
-xxxx
+As duas operações finais efetuadas pelo sistema são
+  1. A geração, execução e documentação da simulação de um mundo em um número limitado de passos;  
+  2. O cálculo do custo simples e custo de bayes associado a um intervalo de tempo e um mundo.
+  
+Para a execução de uma simulação, dois tipos de dados de entrada são necessários: as probabilidades e constantes de funcionamento do universo (armazenadas em uma instância da classe __Universo__) e o número de passos de iteração da simulação. Com esses dois dados, uma ou mais simulações podem ser executadas e documentadas (cf. figura "fluxo-informação.png").
+
+Para efetuar o cálculo dos custos de uma simulação, são necessários como entradas as constantes de custo das criaturas (vespas e lagartas), bem como os dados da simulação, dois quais é extraída a quantidade de lagartas em função do tempo, essencial para esse cálculo.
 
 3.. IMPLEMENTAÇÃO
 ----------------
-xxxxx
+O sistema é organizado em subdiretórios dedicados, cada um comportando a implementação de uma funcionalidade, série de classes ou dados específicos. Aqui temos:
+  **1. _funcs_:** Funções auxiliares usadas ao longo do sistema
+  > 1.1. _bayes.py_: Implementação do custo de bayes;
+  >
+  > 1.2. _init_default.py_: Inicialização padrão e instanciação de um objeto de cada uma das classes __Mundo__, __Universo__, __Controle__ e __Plotter__.
+
+  **2. _data_:** Dados coletados externamente e armazenados em formato _.csv_.
+  
+  **3. _media_:** Funções dedicadas à geração de gráficos e vídeos de evolução de gráficos a partir dos dados de simulação.
+  
+  **4. _simul_:** Implementação das classes e métodos dedicados à execução da simulação e cálculo dos custos.
+  > 4.1. _control.py_: Implementação da classe __Controle__.
+  >
+  > 4.2. _creatures.py_: Implementação das classes __Criatura__, __Vespa__ e __Mariposa__.
+  >
+  > 4.3. _universe.py_: Implementação da classe __Universo__.
+  >
+  > 4.4. _world.py_: Implementação da classe __Mundo__.
+  
+  **5. _tests_:** Scripts de teste do sistema.
