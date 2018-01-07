@@ -195,6 +195,7 @@ class WonderfulWorld:
         #    > see if died of old age
         #        - if it was female and fertile, procreates on death
         #    > nothing happens bean stew (increment age)
+        # ACHO QUE TÁ FALATANDO A MORTE POR PREDAÇÃO AQUI
         for moth in self.creatures[Moth]:
             if not self.random_death(moth):
                 if self.old_age_death(moth):
