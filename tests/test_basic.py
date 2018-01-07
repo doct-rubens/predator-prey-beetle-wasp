@@ -40,7 +40,7 @@ costs = {'fly': 0.0027, 'moth': 0.005}
 
 # initial number of flies and moths
 nf = 0
-nm = 2500
+nm = 2488
 
 # number of simulation steps and number of simulations
 steps = 200
