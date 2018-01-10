@@ -184,6 +184,6 @@ class Moth(Creature):
     # was a caterpillar and, if it was, we also remove it from the static
     # caterpillars reference list
     def kill(self):
-        self.alive = False
         if self.is_caterpillar():
             self.caterpillars.remove(self)
+        self.alive = False

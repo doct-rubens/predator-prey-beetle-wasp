@@ -219,7 +219,8 @@ class WonderfulWorld:
         self.iteration_data[type(creature)]['dead'][self.instant] += creature.is_dead()
         self.iteration_data[type(creature)]['male'][self.instant] += creature.gender == 'm'
         self.iteration_data[type(creature)]['female'][self.instant] += creature.gender == 'f'
-        self.iteration_data[type(creature)]['caterpillars'][self.instant] += creature.is_caterpillar()
+        self.iteration_data[type(creature)]['caterpillars'][self.instant] += (creature.is_caterpillar() and
+                                                                              creature.is_alive())
         self.iteration_data[type(creature)]['adults'][self.instant] += creature.is_adult()
 
     # resets the iteration log

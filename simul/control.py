@@ -66,6 +66,8 @@ class SimulationControl:
                          output_dir='outputs', output_name='simul'):
 
         output_costs_name = output_name + '_cost'
+        if output_costs == 'same_name':
+            output_costs_name = 'simul_results_cost'
 
         # creates a directory with the given name if it doesn't already exists
         if (output_csv != 'none') or (output_costs != 'none'):
@@ -164,8 +166,9 @@ class SimulationControl:
         for _, initial_pop in initial_populations.iterrows():
             print('running batch for #flies={}, #moths={}'.format(initial_pop['#flies'], initial_pop['#moths']))
             self.simulation_batch(initial_pop['#flies'], initial_pop['#moths'], simul_time,  n_simuls,
-                                  output_csv=output_csv, output_costs=output_costs,
-                                  output_dir=output_dir, output_name=output_name)
+                                  output_csv=output_csv, output_costs='same_name',
+                                  output_dir=output_dir,
+                                  output_name=output_name+'{}-{}'.format(initial_pop['#flies'], initial_pop['#moths']))
 
     #
     # A : sample area (float)

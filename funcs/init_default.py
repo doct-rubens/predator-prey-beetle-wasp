@@ -11,9 +11,13 @@ from simul.universe import Universe
 from simul.world import WonderfulWorld
 from simul.control import SimulationControl
 from media.plotter import Plotter
+import numpy as np
 
 
 def init_default():
+    # set the pseudo-random number generator with a fixed seed
+    np.random.seed(42)
+
     #######################################################
     # ########### UNIVERSE INITIALISATION #################
     #######################################################
@@ -32,7 +36,7 @@ def init_default():
 
     # moth universe laws parameters
     moth_params = {'mfr': 0.5, 'lm': 70, 'lv': 2, 'amin': 0, 'amax': 65,
-                   'fr': 1.0, 'om': 60, 'ov': 20, 'aa': 63, 'ee': 10, 'rd': 0.03}
+                   'fr': 1.0, 'om': 60, 'ov': 20, 'aa': 63, 'ee': 10, 'rd': 0.04}
 
     # other parameters:
     #     pc        - predation coefficient
@@ -55,7 +59,6 @@ def init_default():
     # ############ PLOTTER INITIALISATION #################
     #######################################################
     # number of simulation steps and number of simulations
-    steps = 200
     n_simuls = 1
 
     # image generation params

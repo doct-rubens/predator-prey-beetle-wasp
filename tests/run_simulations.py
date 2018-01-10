@@ -18,7 +18,7 @@ nf = 0
 nm = 2500
 
 # output csv file generation params
-output_csv_dir = 'outputs'
+output_csv_dir = 'outputs_bayes'
 output_csv_name = 'simul_results_'
 output_csv = 'mean'     # can be 'all', 'mean' or 'none'
 output_costs = 'mean'  # same as above, 'all', 'mean' or 'none'
@@ -31,7 +31,7 @@ initial_pops_file = os.path.join('..', 'data', 'my_initial_pops.csv')
 # simulations - [lower_bound, upper_bound (not included)]
 # example: initial_pops_lines = [0, 3] will make the program run
 # simulation for lines 0 and 1 only (2 in total)
-initial_pops_lines = [0, 10]
+initial_pops_lines = [0, 115]
 
 u, w, sc, my_plotter = init_default()
 
