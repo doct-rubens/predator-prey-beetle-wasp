@@ -10,8 +10,8 @@ from funcs.init_default import init_default
 from simul.control import _BAYES_COST_COLUMNS
 
 # simulation batch parameters
-steps = 50
-n_simuls = 10
+steps = 200
+n_simuls = 50
 
 # output csv file generation params
 output_csv_dir = 'outputs'

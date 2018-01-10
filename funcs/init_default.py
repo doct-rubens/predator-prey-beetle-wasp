@@ -40,7 +40,7 @@ def init_default():
 
     # other parameters:
     #     pc        - predation coefficient
-    other_params = {'pc': 10.0}
+    other_params = {'pc': 4.0}
 
     # universe instantiation
     u = Universe(*fly_params.values(), *moth_params.values(), *other_params.values())
