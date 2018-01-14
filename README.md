@@ -123,3 +123,18 @@ O sistema é organizado em subdiretórios dedicados, cada um comportando a imple
   > 4.4. _world.py_: Implementação da classe __Mundo__.
   
   **5. _tests_:** Scripts de teste do sistema.
+
+
+
+
+---------------------
+> initial_pops_1.csv
+    - 126/200 concluído
+> initial_pops_2.csv
+    - 129/200 concluído
+
+>>> CORREÇÃO DO MÉTODO is_caterpillar() ::: REFAZER SIMULAÇÕES DO COMEÇO
+> initial_pops_1.csv
+    - concluido
+> initial_pops_2.csv
+    - concluido

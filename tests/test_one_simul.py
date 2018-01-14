@@ -15,8 +15,8 @@ from funcs.init_default import init_default
 # simulation batch parameters
 steps = 200
 n_simuls = 1
-nf = 100
-nm = 2
+nf = 1915
+nm = 1500
 
 # output csv file generation params
 output_csv_dir = 'outputs'

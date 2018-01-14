@@ -13,25 +13,23 @@ from funcs.init_default import init_default
 
 # simulation batch parameters
 steps = 200
-n_simuls = 1
-nf = 0
-nm = 2500
+n_simuls = 4
 
 # output csv file generation params
-output_csv_dir = 'outputs_bayes'
-output_csv_name = 'simul_results_'
+output_csv_dir = 'final-outputs_bayes_1'
+output_csv_name = 'final-simul_results_'
 output_csv = 'mean'     # can be 'all', 'mean' or 'none'
 output_costs = 'mean'  # same as above, 'all', 'mean' or 'none'
 
 # data files
 densities_file = os.path.join('..', 'data', 'Densidades.csv')
-initial_pops_file = os.path.join('..', 'data', 'my_initial_pops.csv')
+initial_pops_file = os.path.join('..', 'data', 'initial_pops_1.csv')
 
 # lines from the initial_pops_file that must be used to run
 # simulations - [lower_bound, upper_bound (not included)]
 # example: initial_pops_lines = [0, 3] will make the program run
 # simulation for lines 0 and 1 only (2 in total)
-initial_pops_lines = [0, 115]
+initial_pops_lines = [0, 201]
 
 u, w, sc, my_plotter = init_default()
 
