@@ -36,11 +36,11 @@ def init_default():
 
     # moth universe laws parameters
     moth_params = {'mfr': 0.5, 'lm': 70, 'lv': 2, 'amin': 0, 'amax': 65,
-                   'fr': 1.0, 'om': 60, 'ov': 20, 'aa': 63, 'ee': 10, 'rd': 0.04}
+                   'fr': 1.0, 'om': 60, 'ov': 20, 'aa': 63, 'ee': 10, 'rd': 0.03}
 
     # other parameters:
     #     pc        - predation coefficient
-    other_params = {'pc': 4.0}
+    other_params = {'pc': 10.0}
 
     # universe instantiation
     u = Universe(*fly_params.values(), *moth_params.values(), *other_params.values())

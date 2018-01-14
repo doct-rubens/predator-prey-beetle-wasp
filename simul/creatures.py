@@ -158,7 +158,7 @@ class Moth(Creature):
     #    - False, if not
     def is_caterpillar(self):
         return ((self.universe.egg_age[type(self)] < self.age) and
-                (self.age < self.universe.adult_age[type(self)]) and self.is_alive())
+                (self.age < self.universe.adult_age[type(self)]))
 
     # Increments the age of the current moth. Additionally, verifies if its
     # "caterpillar status" changed. If it did, we either insert or remove

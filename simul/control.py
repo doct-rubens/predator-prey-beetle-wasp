@@ -44,6 +44,31 @@ class SimulationControl:
         return ((self.world.n_flies * self.cost_fly) +
                 (self.cost_moth * integrate.simps(moth_function)))
 
+    def simple_cost(self, parent_dir, files, cost_steps=None):
+        """
+        Evaluates the simple cost from all simulation files on a given directory. Optionally, a
+        maximum step size can be defined.
+        """
+
+        df = pd.read_csv(os.path.join(parent_dir, files[0]))
+        if (cost_steps is None) or (cost_steps > len(df)):
+            cost_steps = len(df)
+
+        costs_data = dict.fromkeys(_COST_COLUMNS, [])
+        for col in _COST_COLUMNS:
+            costs_data[col] = np.zeros(len(files))
+
+        for i, f in enumerate(files):
+            df = pd.read_csv(os.path.join(parent_dir, f), index_col=0).iloc[0:cost_steps]
+            costs_data['#moths'][i] = df['moth-living'].iloc[0]
+            costs_data['#flies'][i] = df['fly-living'].iloc[0]
+            costs_data['#steps'][i] = cost_steps
+            costs_data['#simuls'][i] = 4
+            costs_data['cost'][i] = self.cost(df)
+
+        costs_df = pd.DataFrame(data=costs_data, index=range(len(files)), columns=_COST_COLUMNS)
+        return costs_df
+
     #
     # executes a batch of simulations given we already have
     # a functioning world.
@@ -68,6 +93,7 @@ class SimulationControl:
         output_costs_name = output_name + '_cost'
         if output_costs == 'same_name':
             output_costs_name = 'simul_results_cost'
+            output_costs = 'mean'
 
         # creates a directory with the given name if it doesn't already exists
         if (output_csv != 'none') or (output_costs != 'none'):
@@ -89,17 +115,17 @@ class SimulationControl:
 
         costs_data = dict.fromkeys(_COST_COLUMNS, [])
         if output_costs == 'all':
-            for col in costs_data:
+            for col in _COST_COLUMNS:
                 costs_data[col] = np.zeros(n_simuls + 1)
 
         if output_costs == 'mean':
-            for col in costs_data:
+            for col in _COST_COLUMNS:
                 costs_data[col] = [0]
 
         snp = max([1, int(np.ceil(np.log10(n_simuls + 1)))])
         avg_simul_log = self.empty_data_log(simul_time + 1)
         for i in range(n_simuls):
-
+            print('      - simulation {}/{}'.format(i + 1, n_simuls))
             # current simulation dataframe results
             curr_df = self.world.run_world(n_flies, n_moths, simul_time)
 
@@ -163,8 +189,8 @@ class SimulationControl:
             lines[1] = min([len(initial_populations), lines[1]])
             initial_populations = initial_populations.iloc[lines[0]:lines[1]]
 
-        for _, initial_pop in initial_populations.iterrows():
-            print('running batch for #flies={}, #moths={}'.format(initial_pop['#flies'], initial_pop['#moths']))
+        for j, initial_pop in initial_populations.iterrows():
+            print('{}/{} - running batch for #flies={}, #moths={}'.format(j+1, lines[1], initial_pop['#flies'], initial_pop['#moths']))
             self.simulation_batch(initial_pop['#flies'], initial_pop['#moths'], simul_time,  n_simuls,
                                   output_csv=output_csv, output_costs='same_name',
                                   output_dir=output_dir,
